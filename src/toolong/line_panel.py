@@ -60,11 +60,7 @@ class LinePanel(ScrollableContainer):
         background: $panel;        
         overflow-y: auto;
         overflow-x: auto;
-        border: blank transparent;                
         scrollbar-gutter: stable;
-        &:focus {
-            border: heavy $accent;
-        }
     }
     """
 

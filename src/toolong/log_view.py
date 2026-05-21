@@ -122,6 +122,30 @@ class FooterKey(Label):
         await self.app.check_bindings(self.key)
 
 
+class QuitButton(Label):
+    """Displays a clickable quit button."""
+
+    DEFAULT_CSS = """
+    QuitButton {
+        color: $success;
+        &:light {
+            color: $primary;
+        }
+        padding: 0 1 0 0;
+        &:hover {
+            text-style: bold underline;
+        }
+    }
+    """
+    DEFAULT_CLASSES = "key"
+
+    def render(self) -> str:
+        return "[reverse] X [/reverse] Close"
+
+    def on_click(self) -> None:
+        self.app.exit()
+
+
 class MetaLabel(Label):
 
     DEFAULT_CSS = """
@@ -188,6 +212,7 @@ class LogFooter(Widget):
     def compose(self) -> ComposeResult:
         with Horizontal(classes="key-container"):
             pass
+        yield QuitButton()
         yield Label("TAIL", classes="tail")
         yield MetaLabel("", classes="meta")
 

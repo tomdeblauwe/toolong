@@ -151,16 +151,12 @@ class LogLines(ScrollView, inherit_bindings=False):
     LogLines {
         scrollbar-gutter: stable;
         overflow: scroll;
-        border: heavy transparent;        
         .loglines--filter-highlight {
             background: $secondary;
             color: auto;
         }
         .loglines--pointer-highlight {
             background: $primary;
-        }
-        &:focus {
-            border: heavy $accent;
         }
 
         border-subtitle-color: $success;
