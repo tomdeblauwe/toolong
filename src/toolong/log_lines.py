@@ -94,20 +94,29 @@ class LineReader(Thread):
             except Empty:
                 continue
             else:
-                self.pending.discard(request)
-                log_file, index, start, end = request
-                self.queue.task_done()
-                if self.exit_event.is_set() or log_file is None:
-                    break
-                log_lines.post_message(
-                    LineRead(
-                        index,
-                        log_file,
-                        start,
-                        end,
-                        log_file.get_line(start, end),
+                # Drain the queue to get the most recent batch of requests
+                batch = [request]
+                try:
+                    while True:
+                        batch.append(self.queue.get_nowait())
+                except Empty:
+                    pass
+                # Process all drained requests
+                for req in batch:
+                    self.pending.discard(req)
+                    log_file, index, start, end = req
+                    self.queue.task_done()
+                    if self.exit_event.is_set() or log_file is None:
+                        return
+                    log_lines.post_message(
+                        LineRead(
+                            index,
+                            log_file,
+                            start,
+                            end,
+                            log_file.get_line(start, end),
+                        )
                     )
-                )
 
 
 class SearchSuggester(Suggester):
