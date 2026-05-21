@@ -28,14 +28,20 @@ class WordWrapButton(Label):
         &:hover {
             text-style: bold underline;
         }
+        &.active {
+            background: $success 25%;
+        }
     }
     """
 
     word_wrap: reactive[bool] = reactive(True)
 
     def render(self) -> str:
-        state = "ON" if self.word_wrap else "OFF"
-        return f"[reverse] W [/reverse] Wrap {state}"
+        check = "✓" if self.word_wrap else " "
+        return f"[reverse] {check} [/reverse] Wrap"
+
+    def watch_word_wrap(self, word_wrap: bool) -> None:
+        self.set_class(word_wrap, "active")
 
     def on_click(self) -> None:
         panel = self.screen.query_one(LinePanel)
