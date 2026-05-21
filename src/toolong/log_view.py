@@ -119,7 +119,7 @@ class FooterKey(Label):
         return f"[reverse]{self.key_display}[/reverse] {self.description}"
 
     async def on_click(self) -> None:
-        await self.app.check_bindings(self.key)
+        await self.app.action_simulate_key(self.key)
 
 
 class QuitButton(Label):
@@ -228,7 +228,7 @@ class LogFooter(Widget):
                 await key_container.query("*").remove()
                 bindings = [
                     binding
-                    for (_, binding) in self.app.namespace_bindings.values()
+                    for (_, binding, *_rest) in self.app.active_bindings.values()
                     if binding.show
                 ]
 
