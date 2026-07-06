@@ -287,15 +287,14 @@ class LogView(Horizontal):
             LinePanel {
                 display: block;
             }
-            LogLines {
-                display: none;
-            }
         }
         LogLines {
             width: 1fr;            
         }     
         LinePanel {
             width: 1fr;
+            height: 50%;
+            dock: top;
             display: none;            
         }
     }
@@ -402,7 +401,7 @@ class LogView(Horizontal):
 
     @on(PointerMoved)
     async def pointer_moved(self, event: PointerMoved):
-        if event.pointer_line is None:
+        if event.pointer_line is None and not self.tail:
             self.show_panel = False
         if self.show_panel:
             await self.update_panel()
