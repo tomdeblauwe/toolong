@@ -287,12 +287,15 @@ class LogView(Horizontal):
             LinePanel {
                 display: block;
             }
+            LogLines {
+                display: none;
+            }
         }
         LogLines {
             width: 1fr;            
         }     
         LinePanel {
-            width: 50%;
+            width: 1fr;
             display: none;            
         }
     }
